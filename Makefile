@@ -6,3 +6,5 @@ dev:
 
 lint:
 	uv run ruff check
+
+.PHONY: install test lint selfcheck check build
