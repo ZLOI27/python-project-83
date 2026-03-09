@@ -1,9 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello</title>
-</head>
-<body>
-    <h1>Hello</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4">Анализатор страниц</h1>
+                <p class="lead">Анализ страниц на SEO-пригодность</p>
+                
+                <!-- Форма для ввода URL -->
+                <form method="post" action="/" class="mb-4">
+                    <div class="input-group">
+                        <input type="url" 
+                            name="url" 
+                            class="form-control" 
+                            placeholder="https://example.com" 
+                            required>
+                        <button type="submit" class="btn btn-primary">Проверить</button>
+                    </div>
+                </form>
+                
+                <!-- Здесь будет выводиться результат -->
+                {% if result %}
+                <div class="alert alert-info">
+                    <h4>Результат проверки:</h4>
+                    <pre>{{ result | tojson(indent=2) }}</pre>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
