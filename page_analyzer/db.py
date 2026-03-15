@@ -1,16 +1,18 @@
 import os
-import psycopg2
-from psycopg2.pool import SimpleConectionPool
-from contexlib import contextmanager
 
+from contextlib import contextmanager
+from psycopg2.pool import SimpleConnectionPool
+from dotenv import load_dotenv
 
+load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-pool = SimpleConectionPool(
+pool = SimpleConnectionPool(
     minconn=1,
     maxconn=8,
     dsn=DATABASE_URL,
 )
+
 
 @contextmanager
 def get_cursor():
