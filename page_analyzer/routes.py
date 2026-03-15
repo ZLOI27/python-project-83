@@ -1,4 +1,5 @@
 from flask import render_template
+
 from page_analyzer.models import UrlCheckRepository, UrlRepository
 
 

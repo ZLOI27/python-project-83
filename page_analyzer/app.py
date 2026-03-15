@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from flask import Flask
+
 from page_analyzer.routes import register_routes
 
 load_dotenv()
