@@ -5,7 +5,7 @@ class UrlRepository():
     @staticmethod
     def get_all_urls():
         with get_cursor() as cur:
-            cur.execute("SELECT * FROM urls;")
+            cur.execute("SELECT * FROM urls;")  # FIXME from 2 tables
             urls = cur.fetchall()
         return urls
     

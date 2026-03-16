@@ -1,6 +1,6 @@
 from flask import render_template
 
-from page_analyzer.models import UrlCheckRepository, UrlRepository
+from page_analyzer.repositories import UrlCheckRepository, UrlRepository
 
 
 def register_routes(app):
@@ -12,10 +12,10 @@ def register_routes(app):
 
     @app.route('/urls', methods=['GET'])
     def get_urls():
-        all_urls = UrlRepository.get_all_urls()
+        urls = UrlRepository.get_all_urls()
         return render_template(
             'urls.html',
-            all_urls=all_urls
+            urls=urls
         )
 
     @app.route('/urls', methods=['POST'])  # FIXME
