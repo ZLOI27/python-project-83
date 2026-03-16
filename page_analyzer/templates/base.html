@@ -10,9 +10,11 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <main>
+    <main class="flex-grow-1">
+        <div class="container-lg mt-3">
         {% block content %}
         {% endblock %}
+        </div>
     </main>
     {% include 'footer.html' %}
 </body>
