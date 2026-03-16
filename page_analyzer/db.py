@@ -2,8 +2,8 @@ import os
 from contextlib import contextmanager
 
 from dotenv import load_dotenv
-from psycopg2.pool import SimpleConnectionPool
 from psycopg2.extras import RealDictCursor
+from psycopg2.pool import SimpleConnectionPool
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -19,7 +19,7 @@ pool = SimpleConnectionPool(
 def get_cursor():
     conn = pool.getconn()
     try:
-        with conn.cursor(cursor_factory=RealDictCursor)) as cur:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
             yield cur
         conn.commit()
     except:
