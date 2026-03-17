@@ -1,10 +1,10 @@
 from flask import (
+    flash,
+    get_flashed_messages,
     redirect,
     render_template,
     request,
     url_for,
-    flash,
-    get_flashed_messages
 )
 
 from page_analyzer.repositories import UrlCheckRepository, UrlRepository
@@ -32,7 +32,7 @@ def register_routes(app):
     def add_url():
         url = request.form.get('url')
         if not validate_url(url):
-            flash("Введенный URL некорректный! Возможно не хватает 'HTTP://'", "danger")
+            flash("URL некорректный! Возможно не хватает 'HTTP://'", "danger")
             return redirect(url_for('index'))
         
         url = normalize_url(url)
