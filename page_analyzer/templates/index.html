@@ -3,9 +3,16 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
+            {% if messages %}
+                <ul class=flashes>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <h1 class="mb-4">Анализатор страниц</h1>
             <p class="lead">Анализ страниц на SEO-пригодность</p>
-            <form method="post" action="/urls" class="mb-4">
+            <form method="post" action="{{ url_for('add_url') }}" class="mb-4">
                 <div class="input-group">
                     <input type="text" 
                         name="url" 
