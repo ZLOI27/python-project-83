@@ -11,18 +11,26 @@ class UrlRepository():
     
     @staticmethod
     def add_url(url):
-        return
+        with get_cursor() as cur:
+            cur.execute("""
+                INSERT INTO urls (name)
+                VALUES (%s)
+                RETURNING id
+                """, (url,))
+            id = cur.fetchone()['id']
+            return id
 
     @staticmethod
     def get_url_by_name(name):
         with get_cursor() as cur:
-            cur.execute("SELECT * FROM urls WHERE name = %s", (name))
-            url = cur.fetchone()
-        return url
+            cur.execute("SELECT * FROM urls WHERE name = %s", (name,))
+            return cur.fetchone()
     
     @staticmethod
     def get_url_by_id(id):
-        return
+        with get_cursor() as cur:
+            cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
+            return cur.fetchone()
 
 
 class UrlCheckRepository():

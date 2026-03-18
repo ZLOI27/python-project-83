@@ -1,6 +1,5 @@
 from flask import (
     flash,
-    get_flashed_messages,
     redirect,
     render_template,
     request,
@@ -14,10 +13,8 @@ from page_analyzer.utils import normalize_url, validate_url
 def register_routes(app):
     @app.route('/')
     def index():
-        messages = get_flashed_messages(with_categories=True)
         return render_template(
-            'index.html',
-            messages=messages
+            'index.html'
         )
 
     @app.route('/urls', methods=['GET'])
@@ -28,27 +25,29 @@ def register_routes(app):
             urls=urls
         )
 
-    @app.route('/urls', methods=['POST'])  # FIXME
+    @app.route('/urls', methods=['POST'])
     def add_url():
         url = request.form.get('url')
         if not validate_url(url):
-            flash("URL некорректный! Возможно не хватает 'HTTP://'", "danger")
+            flash("URL некорректный! Возможно не хватает 'http://'", "danger")
             return redirect(url_for('index'))
         
         url = normalize_url(url)
-
-        return redirect(url_for('get_urls'))
-        """return render_template(
-            'urls.html'
-        )"""
+        id = UrlRepository.add_url(url)
+        flash("Страница успешно добавлена", "success")
+        return redirect(url_for('get_by_id', id=id))
 
     @app.route('/urls/<int:id>', methods=['GET'])
     def get_by_id(id: int):
-        url = UrlRepository.get_by_id(id)
+        url = UrlRepository.get_url_by_id(id)
         url_checks = UrlCheckRepository.get_checks_by_url_id(id)
-        return render_template(
-            'url.html',
-            url=url,
-            url_checks=url_checks,
-        )
 
+        if url:
+            return render_template(
+                'url.html',
+                url=url,
+                url_checks=url_checks,
+            )
+
+        flash("Не получены данные из БД", "danger")
+        return redirect(url_for('index'))

@@ -11,6 +11,6 @@ def normalize_url(url: str):
 
 
 def validate_url(url):
-    if validators.url(url) is not True:
+    if validators.url(url) is not True or len(url) > 255:
         return False
     return True
