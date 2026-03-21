@@ -8,8 +8,8 @@ class UrlRepository():
         SELECT DISTINCT ON (u.id)
             u.id,
             u.name,
-            c.created_at,S
-            c.response_status
+            c.created_at AS last_check,
+            c.response_status AS last_status
         FROM urls AS u
         LEFT JOIN urls_checks AS c ON
             u.id = c.url_id
