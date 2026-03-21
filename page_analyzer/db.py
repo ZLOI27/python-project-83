@@ -2,6 +2,7 @@ import os
 from contextlib import contextmanager
 
 from dotenv import load_dotenv
+from flask import g
 from psycopg2.extras import RealDictCursor
 from psycopg2.pool import SimpleConnectionPool
 
@@ -17,13 +18,6 @@ pool = SimpleConnectionPool(
 
 @contextmanager
 def get_cursor():
-    conn = pool.getconn()
-    try:
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            yield cur
-        conn.commit()
-    except Exception:
-        conn.rollback()
-        raise
-    finally:
-        pool.putconn(conn)
+    conn = g.db
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        yield cur
