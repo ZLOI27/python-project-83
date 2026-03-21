@@ -9,22 +9,20 @@ from psycopg2.pool import ThreadedConnectionPool
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-conn_params = {
-    'sslmode': 'require',  # Требовать SSL
-    'connect_timeout': 10,  # Таймаут подключения
-    'keepalives': 1,  # Держать соединение живым
-    'keepalives_idle': 10,  # Проверять каждые 30 секунд
-    'keepalives_interval': 10,
-    'keepalives_count': 4,
-}
 
+class DATABASE:
+    _pool = None
 
-pool = ThreadedConnectionPool(
-    minconn=1,
-    maxconn=4,
-    dsn=DATABASE_URL,
-    **conn_params,
-)
+    @classmethod
+    def get_pool(cls):
+        if cls._pool is None:
+            cls._pool = ThreadedConnectionPool(
+                minconn=1,
+                maxconn=4,
+                dsn=DATABASE_URL,
+                connect_timeout=10,
+            )
+        return cls._pool
 
 
 @contextmanager

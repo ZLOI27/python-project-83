@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, g
 
-from page_analyzer.db import pool
+from page_analyzer.db import DATABASE
 from page_analyzer.routes import register_routes
 
 load_dotenv()
@@ -14,16 +14,17 @@ register_routes(app)
 
 @app.before_request
 def open_connection():
+    pool = DATABASE.get_pool()
     g.db = pool.getconn()
 
 
 @app.teardown_request
-def close_connection(exсeption=None):
+def close_connection(exception=None):
     conn = g.pop('db', None)
     if conn is not None:
-        if exсeption:
+        if exception:
             conn.rollback()
         else:
             conn.commit()
-        pool.putconn(conn)
+        DATABASE.get_pool().putconn(conn)
     
