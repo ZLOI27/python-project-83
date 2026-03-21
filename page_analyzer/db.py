@@ -18,10 +18,12 @@ conn_params = {
     'keepalives_count': 4,
 }
 
+
 pool = ThreadedConnectionPool(
     minconn=1,
     maxconn=4,
     dsn=DATABASE_URL,
+    **conn_params,
 )
 
 
