@@ -13,9 +13,9 @@ conn_params = {
     'sslmode': 'require',  # Требовать SSL
     'connect_timeout': 10,  # Таймаут подключения
     'keepalives': 1,  # Держать соединение живым
-    'keepalives_idle': 30,  # Проверять каждые 30 секунд
+    'keepalives_idle': 10,  # Проверять каждые 30 секунд
     'keepalives_interval': 10,
-    'keepalives_count': 5,
+    'keepalives_count': 4,
 }
 
 pool = ThreadedConnectionPool(
