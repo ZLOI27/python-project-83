@@ -19,7 +19,7 @@ def open_connection():
 
 @app.teardown_request
 def close_connection(exeption=None):
-    conn = g.pop('db, None')
+    conn = g.pop('db', None)
     if conn is not None:
         if exeption:
             conn.rollback()
