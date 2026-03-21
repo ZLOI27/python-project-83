@@ -14,7 +14,7 @@ register_routes(app)
 
 @app.before_request
 def open_connection():
-    g.db = pool.get_conn()
+    g.db = pool.getconn()
 
 
 @app.teardown_request
