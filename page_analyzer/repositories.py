@@ -53,7 +53,6 @@ class UrlCheckRepository():
             cur.execute("SELECT * FROM url_checks WHERE url_id = %s", (url_id,))
             return cur.fetchall()
 
-
     @staticmethod
     def add_check(url_id):
         with get_cursor() as cur:
