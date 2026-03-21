@@ -18,10 +18,10 @@ def open_connection():
 
 
 @app.teardown_request
-def close_connection(exeption=None):
+def close_connection(exсeption=None):
     conn = g.pop('db', None)
     if conn is not None:
-        if exeption:
+        if exсeption:
             conn.rollback()
         else:
             conn.commit()

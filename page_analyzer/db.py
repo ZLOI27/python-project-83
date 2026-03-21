@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from dotenv import load_dotenv
 from flask import g
 from psycopg2.extras import RealDictCursor
-from psycopg2.pool import SimpleConnectionPool
+from psycopg2.pool import ThreadedConnectionPool
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -18,7 +18,7 @@ conn_params = {
     'keepalives_count': 5,
 }
 
-pool = SimpleConnectionPool(
+pool = ThreadedConnectionPool(
     minconn=1,
     maxconn=4,
     dsn=DATABASE_URL,
