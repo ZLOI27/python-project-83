@@ -11,7 +11,7 @@ class UrlRepository():
             c.created_at AS last_check,
             c.response_status AS last_status
         FROM urls AS u
-        LEFT JOIN urls_checks AS c ON
+        LEFT JOIN url_checks AS c ON
             u.id = c.url_id
         ORDER BY u.id, c.created_at DESC;
         """

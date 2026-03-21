@@ -22,7 +22,7 @@
     <form action="{{ url_for('index', id=url['id']) }}" method="post">
         <button type="submit" class="btn btn-primary mb-3">Запустить проверку</button>
     </form>
-    <table class="table table-bordered">
+    <table class="table table-bordered" data-test="checks">
         <thead>
             <tr>
                 <th>ID</th>
@@ -34,7 +34,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for check in checks %}
+            {% for check in url_checks %}
             <tr>
                 <td>{{ check['id'] }}</td>
                 <td>{{ check['response_status'] }}</td>
