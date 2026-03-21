@@ -46,7 +46,7 @@ def register_routes(app):
             ), 409
         
         url_id = UrlRepository.add_url(url)
-        flash(f"Страница успешно добавлена", "success")
+        flash("Страница успешно добавлена", "success")
         return redirect(url_for('get_by_id', id=url_id))
 
     @app.route('/urls/<int:id>', methods=['GET'])
