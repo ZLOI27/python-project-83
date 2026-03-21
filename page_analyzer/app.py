@@ -14,6 +14,11 @@ register_routes(app)
 
 @app.before_request
 def open_connection():
+    """Within the framework of a single request from the client, 
+    if there are several database requests, 
+    one connection is used and only cursors are opened.
+    One connection per request also guarantees atomicity.
+    """
     pool = DATABASE.get_pool()
     g.db = pool.getconn()
 

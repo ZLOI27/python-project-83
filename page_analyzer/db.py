@@ -11,6 +11,11 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 class DATABASE:
+    """A separate pool of connections is created for each worker. 
+    It is unnecessary to use PgBouncer. 
+    And when there is a common pool of connections for workers, 
+    an error occurs.
+    """
     _pool = None
 
     @classmethod

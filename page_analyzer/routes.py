@@ -27,23 +27,27 @@ def register_routes(app):
 
     @app.route('/urls', methods=['POST'])
     def add_url():
-        url = request.form.get('url')
-        valid = validate_url(url)
-        if not valid:
-            flash("URL некорректный! Возможно не хватает 'http://'", "danger")
+        url = request.form.get('url', '').strip()
+
+        if not validate_url(url):
+            flash(f"'{url}' URL некорректный!", "danger")
             return render_template(
                 'index.html',
                 url=url,
             ), 422
 
-        if UrlRepository.find_by_url(url) is not None:
-            flash("URL уже в базе", "warning")
-            return redirect(url_for('index'))
-        
         url = normalize_url(url)
-        id = UrlRepository.add_url(url)
-        flash("Страница успешно добавлена", "success")
-        return redirect(url_for('get_by_id', id=id))
+
+        if UrlRepository.find_by_url(url) is not None:
+            flash(f"'{url}' URL уже в базе", "warning")
+            return render_template(
+                'index.html',
+                url=url,
+            ), 409
+        
+        url_id = UrlRepository.add_url(url)
+        flash(f"Страница успешно добавлена", "success")
+        return redirect(url_for('get_by_id', id=url_id))
 
     @app.route('/urls/<int:id>', methods=['GET'])
     def get_by_id(id: int):
@@ -59,3 +63,9 @@ def register_routes(app):
 
         flash("Не получены данные из БД", "danger")
         return redirect(url_for('index'))
+
+    @app.route('/urls/<int:id>/checks', methods=['POST'])
+    def run_check(id):
+        flash("Страница успешно проверена", "success")
+        UrlCheckRepository.add_check(id)
+        return redirect(url_for('get_by_id', id=id))

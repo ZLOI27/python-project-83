@@ -1,3 +1,5 @@
+from random import randint
+
 from page_analyzer.db import get_cursor
 
 
@@ -13,7 +15,7 @@ class UrlRepository():
         FROM urls AS u
         LEFT JOIN url_checks AS c ON
             u.id = c.url_id
-        ORDER BY u.id, c.created_at DESC;
+        ORDER BY u.id, c.created_at DESC
         """
         with get_cursor() as cur:
             cur.execute(query)
@@ -47,8 +49,30 @@ class UrlRepository():
 class UrlCheckRepository():
     @staticmethod
     def get_checks_by_url_id(url_id):
-        return
+        with get_cursor() as cur:
+            cur.execute("SELECT * FROM url_checks WHERE url_id = %s", (url_id,))
+            return cur.fetchall()
+
 
     @staticmethod
-    def add_check(check):
-        return
+    def add_check(url_id):
+        with get_cursor() as cur:
+            response_status = randint(400, 420)
+            query = """
+            INSERT INTO url_checks (
+                url_id, 
+                response_status, 
+                h1, 
+                title, 
+                description
+            ) 
+            VALUES (
+                %s,
+                %s,
+                'test-h1',
+                'test-title',
+                'test-decription'
+            )
+            """
+            cur.execute(query, (url_id, response_status))
+            return True
