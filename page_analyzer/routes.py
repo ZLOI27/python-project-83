@@ -14,7 +14,7 @@ def register_routes(app):
     @app.route('/')
     def index():
         return render_template(
-            'index.html'
+            'index.html',
         )
 
     @app.route('/urls', methods=['GET'])
@@ -22,14 +22,22 @@ def register_routes(app):
         urls = UrlRepository.get_all_urls()
         return render_template(
             'urls.html',
-            urls=urls
+            urls=urls,
         )
 
     @app.route('/urls', methods=['POST'])
     def add_url():
         url = request.form.get('url')
-        if not validate_url(url):
+        valid = validate_url(url)
+        if not valid:
             flash("URL некорректный! Возможно не хватает 'http://'", "danger")
+            return render_template(
+                'index.html',
+                url=url,
+            ), 422
+
+        if UrlRepository.find_by_url(url) is not None:
+            flash("URL уже в базе", "warning")
             return redirect(url_for('index'))
         
         url = normalize_url(url)
@@ -39,7 +47,7 @@ def register_routes(app):
 
     @app.route('/urls/<int:id>', methods=['GET'])
     def get_by_id(id: int):
-        url = UrlRepository.get_url_by_id(id)
+        url = UrlRepository.get_url(id)
         url_checks = UrlCheckRepository.get_checks_by_url_id(id)
 
         if url:

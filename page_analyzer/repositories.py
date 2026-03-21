@@ -21,13 +21,13 @@ class UrlRepository():
             return id
 
     @staticmethod
-    def get_url_by_name(name):
+    def find_by_url(url):
         with get_cursor() as cur:
-            cur.execute("SELECT * FROM urls WHERE name = %s", (name,))
+            cur.execute("SELECT * FROM urls WHERE name = %s", (url,))
             return cur.fetchone()
     
     @staticmethod
-    def get_url_by_id(id):
+    def get_url(id):
         with get_cursor() as cur:
             cur.execute("SELECT * FROM urls WHERE id = %s", (id,))
             return cur.fetchone()

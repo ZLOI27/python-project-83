@@ -22,7 +22,7 @@ def get_cursor():
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
             yield cur
         conn.commit()
-    except:
+    except Exception:
         conn.rollback()
         raise
     finally:
