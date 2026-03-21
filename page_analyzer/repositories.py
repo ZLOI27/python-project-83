@@ -4,8 +4,19 @@ from page_analyzer.db import get_cursor
 class UrlRepository():
     @staticmethod
     def get_all_urls():
+        query = """
+        SELECT DISTINCT ON (u.id)
+            u.id,
+            u.name,
+            c.created_at,S
+            c.response_status
+        FROM urls AS u
+        LEFT JOIN urls_checks AS c ON
+            u.id = c.url_id
+        ORDER BY u.id, c.created_at DESC;
+        """
         with get_cursor() as cur:
-            cur.execute("SELECT * FROM urls;")  # FIXME from 2 tables
+            cur.execute(query)
             urls = cur.fetchall()
         return urls
     
