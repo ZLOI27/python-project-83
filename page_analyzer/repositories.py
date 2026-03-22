@@ -13,7 +13,7 @@ class UrlRepository():
             FROM urls AS u
             LEFT JOIN url_checks AS c ON
                 u.id = c.url_id
-            ORDER BY u.id, c.created_at DESC
+            ORDER BY u.created_at DESC
         """
         with get_cursor() as cur:
             cur.execute(query)
@@ -29,8 +29,8 @@ class UrlRepository():
         """
         with get_cursor() as cur:
             cur.execute(query, (url,))
-            id = cur.fetchone()['id']
-            return id
+            url_id = cur.fetchone()['id']
+            return url_id
 
     @staticmethod
     def find_by_url(url):
