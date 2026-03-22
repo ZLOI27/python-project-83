@@ -5,15 +5,20 @@ class UrlRepository():
     @staticmethod
     def get_all_urls():
         query = """
-            SELECT DISTINCT ON (u.id)
-                u.id,
-                u.name,
-                c.created_at AS last_check,
-                c.status_code AS last_code
-            FROM urls AS u
-            LEFT JOIN url_checks AS c ON
-                u.id = c.url_id
-            ORDER BY u.created_at DESC
+            SELECT id, name, last_check, last_code 
+            FROM (
+                SELECT DISTINCT ON (u.id)
+                    u.id,
+                    u.name,
+                    u.created_at AS last_url,
+                    c.created_at AS last_check,
+                    c.status_code AS last_code
+                FROM urls AS u
+                LEFT JOIN url_checks AS c ON
+                    u.id = c.url_id
+                ORDER BY u.id, c.created_at DESC
+            ) AS sorted
+            ORDER BY last_url DESC
         """
         with get_cursor() as cur:
             cur.execute(query)
