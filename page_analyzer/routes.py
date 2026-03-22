@@ -39,13 +39,11 @@ def register_routes(app):
             ), 422
 
         url = normalize_url(url)
+        url_from_db = UR.find_by_url(url)
 
-        if UR.find_by_url(url) is not None:
+        if url_from_db is not None:
             flash(f"'{url}' URL уже в базе", "warning")
-            return render_template(
-                'index.html',
-                url=url,
-            ), 409
+            return redirect(url_for('get_by_id', id=url_from_db['id']))
         
         url_id = UR.add_url(url)
         flash("Страница успешно добавлена", "success")
