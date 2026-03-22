@@ -1,5 +1,5 @@
 install:
-	uv sync --python 3.13
+	uv sync
 
 dev:
 	uv run flask --debug --app page_analyzer:app run
