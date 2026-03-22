@@ -10,16 +10,16 @@
                 <th>Последняя проверка</th>
                 <th>Код ответа</th>
             </tr>
-            <tbody>
-                {% for url in urls %}
-                <tr>
-                    <td>{{ url['id'] }}</td>
-                    <td>{{ url['name'] }}</td>
-                    <td>{{ url['last_check'].strftime('%d.%m.%Y %H:%M') if url['last_check'] else '-' }}</td>
-                    <td>{{ url['last_code'] if url['last_code'] else '-' }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
         </thead>
+        <tbody>
+            {% for url in urls %}
+            <tr>
+                <td>{{ url['id'] }}</td>
+                <td>{{ url['name'] }}</td>
+                <td>{{ url['last_check'].strftime('%d.%m.%Y %H:%M') if url['last_check'] else '-' }}</td>
+                <td>{{ url['last_code'] if url['last_code'] else '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
