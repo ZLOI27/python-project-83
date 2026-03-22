@@ -1,5 +1,3 @@
-from random import randint
-
 from page_analyzer.db import get_cursor
 
 
@@ -11,7 +9,7 @@ class UrlRepository():
             u.id,
             u.name,
             c.created_at AS last_check,
-            c.response_status AS last_status
+            c.status_code AS last_code
         FROM urls AS u
         LEFT JOIN url_checks AS c ON
             u.id = c.url_id
@@ -54,13 +52,13 @@ class UrlCheckRepository():
             return cur.fetchall()
 
     @staticmethod
-    def add_check(url_id):
+    def add_check(url_id, check_data):
         with get_cursor() as cur:
-            response_status = randint(400, 420)
+            status_code = check_data['status_code']
             query = """
             INSERT INTO url_checks (
                 url_id, 
-                response_status, 
+                status_code, 
                 h1, 
                 title, 
                 description
@@ -73,5 +71,6 @@ class UrlCheckRepository():
                 'test-decription'
             )
             """
-            cur.execute(query, (url_id, response_status))
+            cur.execute(query, (url_id, status_code))
             return True
+        return
