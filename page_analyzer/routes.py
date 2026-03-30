@@ -42,7 +42,7 @@ def register_routes(app):
         url_from_db = UR.find_by_url(url)
 
         if url_from_db is not None:
-            flash(f"'{url}' URL уже в базе", "warning")
+            flash(f"Страница уже существует", "warning")
             return redirect(url_for('get_by_id', id=url_from_db['id']))
         
         url_id = UR.add_url(url)
