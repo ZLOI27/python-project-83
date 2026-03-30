@@ -32,7 +32,7 @@ def register_routes(app):
         url = request.form.get('url', '').strip()
 
         if not validate_url(url):
-            flash(f"'{url}' URL некорректный!", "danger")
+            flash("Некорректный URL", "danger")
             return render_template(
                 'index.html',
                 url=url,
